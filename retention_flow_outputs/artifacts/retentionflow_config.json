@@ -1,0 +1,12 @@
+{
+  "model_name": "CatBoost",
+  "threshold": 0.44,
+  "fn_cost": 40000,
+  "fp_cost": 500,
+  "random_state": 42,
+  "training_rows": 8101,
+  "features": 143,
+  "pr_auc": 1.0,
+  "f1_score": 0.9981,
+  "timestamp": "2026-05-23T03:05:53.918789"
+}
