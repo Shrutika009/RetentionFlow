@@ -1,12 +1,16 @@
 {
-  "model_name": "CatBoost",
-  "threshold": 0.44,
+  "model_name": "CatBoostCompactCalibrated",
+  "base_model_name": "CatBoostCompact",
+  "calibration": "platt_sigmoid_strong_regularization",
+  "calibrator_c": 0.001,
+  "threshold": 0.12,
   "fn_cost": 40000,
   "fp_cost": 500,
   "random_state": 42,
   "training_rows": 8101,
-  "features": 143,
-  "pr_auc": 1.0,
-  "f1_score": 0.9981,
-  "timestamp": "2026-05-23T03:05:53.918789"
+  "features": 23,
+  "pr_auc": 0.996,
+  "f1_score": 0.8729,
+  "pipeline": "compact_form_feature_model_calibrated",
+  "timestamp": "2026-05-24T03:19:00.737464"
 }
