@@ -1,6 +1,9 @@
 from pathlib import Path
 import json
+<<<<<<< Updated upstream
 import re
+=======
+>>>>>>> Stashed changes
 
 import joblib
 import numpy as np
@@ -8,10 +11,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-import streamlit.components.v1 as components
 
 from notebook_model_artifact import register_notebook_model_class
 
+<<<<<<< Updated upstream
 
 BASE_DIR = Path(__file__).resolve().parent
 RAW_DATA_DIR = BASE_DIR / "Churnzero_data" / "CZ_raw"
@@ -20,11 +23,19 @@ ARTIFACT_DIR = BASE_DIR / "retention_flow_outputs" / "artifacts"
 CHART_DIR = BASE_DIR / "retention_flow_outputs" / "charts"
 ASSET_DIR = BASE_DIR / "assets"
 
+=======
+BASE_DIR = Path(__file__).resolve().parent
+RAW_DATA_DIR = BASE_DIR / "Churnzero_data" / "CZ_raw"
+PROCESSED_DATA_DIR = BASE_DIR / "Churnzero_data" / "CZ_processed"
+ARTIFACT_DIR = BASE_DIR / "retention_flow_outputs" / "artifacts"
+
+>>>>>>> Stashed changes
 ACCENT = "#0EA5E9"
 ACCENT_2 = "#6366F1"
 DANGER = "#E11D48"
 WARNING = "#D97706"
 SUCCESS = "#059669"
+<<<<<<< Updated upstream
 RISK_RED_SCALE = ["#7F1D1D", "#B91C1C", "#E11D48", "#FB7185", "#FCA5A5"]
 RISK_TIER_COLORS = {
     "Low": "#D8BFA5",
@@ -32,6 +43,8 @@ RISK_TIER_COLORS = {
     "High": "#7B4A2D",
     "Critical": "#6B5040",
 }
+=======
+>>>>>>> Stashed changes
 TEXT = "#0F172A"
 MUTED = "#64748B"
 BORDER = "#D8E3F2"
@@ -69,15 +82,19 @@ st.markdown(
     html, body, .stApp, [data-testid="stAppViewContainer"] {
         background: var(--bg) !important;
         color: var(--text) !important;
+<<<<<<< Updated upstream
         opacity: 1 !important;
         filter: none !important;
         backdrop-filter: none !important;
         -webkit-filter: none !important;
         -webkit-backdrop-filter: none !important;
+=======
+>>>>>>> Stashed changes
     }
 
     body * {
         font-family: "Raleway", sans-serif !important;
+<<<<<<< Updated upstream
     }
 
     .material-icons,
@@ -1071,12 +1088,226 @@ def add_model_features_single(frame: pd.DataFrame, stats: dict) -> pd.DataFrame:
     out = frame.copy()
     for col in out.select_dtypes(include=["object", "string"]).columns:
         out[col] = out[col].astype(str).str.strip().str.lower()
+=======
+    }
+
+    .material-icons,
+    .material-icons-rounded,
+    .material-symbols-rounded,
+    .material-symbols-outlined,
+    .material-symbols-sharp,
+    [class*="material-symbols"],
+    [class*="material-icons"] {
+        font-family: "Material Symbols Rounded", "Material Icons" !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+        line-height: 1 !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        word-wrap: normal !important;
+        direction: ltr !important;
+        font-feature-settings: "liga" !important;
+        -webkit-font-feature-settings: "liga" !important;
+    }
+
+    [data-testid="stHeader"], [data-testid="stToolbar"], header {
+        background: transparent !important;
+    }
+
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="stSidebarCollapseButton"] *,
+    [data-testid="collapsedControl"],
+    [data-testid="collapsedControl"] *,
+    button[aria-label="Close sidebar"],
+    button[aria-label="Open sidebar"],
+    button[title="Close sidebar"],
+    button[title="Open sidebar"] {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+
+    [data-testid="stSidebar"] {
+        background: var(--surface) !important;
+        border-right: 1px solid var(--border);
+        box-shadow: 14px 0 34px rgba(15, 23, 42, 0.06);
+    }
+
+    [data-testid="stSidebar"] * {
+        color: var(--text) !important;
+    }
+
+    .block-container {
+        max-width: 100% !important;
+        padding: 1.4rem 2rem 2.5rem 2rem !important;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text) !important;
+        letter-spacing: 0 !important;
+    }
+
+    .wordmark {
+        font-size: 1.55rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        color: var(--text);
+        line-height: 1.05;
+    }
+
+    .wordmark span {
+        color: var(--accent);
+    }
+
+    .sidebar-subtitle {
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        margin: 0.4rem 0 1rem 0;
+    }
+
+    .sidebar-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 0.85rem 0 0.25rem 0;
+    }
+
+    [data-baseweb="select"] > div,
+    [data-baseweb="input"] > div,
+    .stNumberInput input,
+    .stTextInput input {
+        background: var(--soft) !important;
+        border-color: var(--border) !important;
+        color: var(--text) !important;
+        border-radius: 8px !important;
+    }
+
+    [data-baseweb="popover"],
+    [role="listbox"],
+    [role="option"],
+    [role="option"] * {
+        background: var(--surface) !important;
+        color: var(--text) !important;
+    }
+
+    [role="option"]:hover,
+    [role="option"][aria-selected="true"] {
+        background: var(--soft) !important;
+    }
+
+    .kpi-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem 1.1rem;
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.05);
+        min-height: 112px;
+    }
+
+    .kpi-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+    }
+
+    .kpi-value {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: var(--text);
+        line-height: 1.1;
+    }
+
+    .kpi-sub {
+        color: var(--muted);
+        font-size: 0.78rem;
+        margin-top: 0.3rem;
+    }
+
+    .section-header {
+        color: var(--text);
+        font-size: 1.02rem;
+        font-weight: 800;
+        margin: 0.25rem 0 0.75rem 0;
+    }
+
+    .info-box {
+        background: rgba(14, 165, 233, 0.08);
+        border: 1px solid rgba(14, 165, 233, 0.22);
+        border-radius: 10px;
+        color: var(--muted);
+        padding: 0.85rem 1rem;
+        font-size: 0.88rem;
+        margin-bottom: 1rem;
+    }
+
+    [data-testid="stTabs"] button {
+        color: var(--muted) !important;
+        font-weight: 700 !important;
+    }
+
+    [data-testid="stTabs"] button[aria-selected="true"] {
+        color: var(--accent) !important;
+        border-bottom-color: var(--accent) !important;
+    }
+
+    [data-testid="stPlotlyChart"],
+    [data-testid="stDataFrame"] {
+        background: var(--surface) !important;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .stButton > button {
+        background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 8px !important;
+        font-weight: 800 !important;
+    }
+
+    hr {
+        border-color: var(--border) !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+PLOT_LAYOUT = dict(
+    paper_bgcolor=SURFACE,
+    plot_bgcolor=SOFT,
+    font=dict(family="Raleway, sans-serif", color=TEXT, size=11),
+    colorway=[ACCENT, ACCENT_2, SUCCESS, WARNING, DANGER, "#F97316", "#8B5CF6"],
+    xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER),
+    yaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER),
+    legend=dict(bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, font=dict(color=MUTED)),
+    margin=dict(l=42, r=22, t=36, b=42),
+)
+
+
+def apply_layout(fig: go.Figure, height: int = 330, title: str | None = None) -> go.Figure:
+    fig.update_layout(**PLOT_LAYOUT, height=height)
+    if title:
+        fig.update_layout(title=dict(text=title, font=dict(size=14, color=TEXT), x=0))
+    return fig
+>>>>>>> Stashed changes
 
     def numeric(col: str) -> pd.Series:
         if col not in out.columns:
             out[col] = 0
         return pd.to_numeric(out[col], errors="coerce").fillna(0)
 
+<<<<<<< Updated upstream
     def yes_no_to_number(series: pd.Series) -> pd.Series:
         mapped = (
             series.astype(str)
@@ -1103,8 +1334,202 @@ def add_model_features_single(frame: pd.DataFrame, stats: dict) -> pd.DataFrame:
         yes_no_to_number(out["loan_default_history"]).fillna(derived_default).astype(int)
         if "loan_default_history" in out.columns
         else derived_default.astype(int)
+=======
+PRODUCT_FLAGS = [
+    "savings_account_flag",
+    "current_account_flag",
+    "credit_card_flag",
+    "personal_loan_flag",
+    "home_loan_flag",
+    "auto_loan_flag",
+    "fixed_deposit_flag",
+    "investment_product_flag",
+    "insurance_product_flag",
+    "demat_account_flag",
+]
+
+
+@st.cache_resource(show_spinner=False)
+def load_model_artifacts():
+    model = joblib.load(ARTIFACT_DIR / "retentionflow_best_model.pkl")
+    encoders = joblib.load(ARTIFACT_DIR / "retentionflow_encoders.pkl")
+    scaler = joblib.load(ARTIFACT_DIR / "retentionflow_scaler.pkl")
+    with open(ARTIFACT_DIR / "retentionflow_config.json", "r", encoding="utf-8") as fh:
+        config = json.load(fh)
+    with open(ARTIFACT_DIR / "retentionflow_features.json", "r", encoding="utf-8") as fh:
+        features = json.load(fh)
+    return model, encoders, scaler, config, features
+
+
+def add_model_features(frame: pd.DataFrame) -> pd.DataFrame:
+    out = frame.copy()
+    for col in out.select_dtypes(include=["object", "string"]).columns:
+        out[col] = out[col].astype(str).str.strip().str.lower()
+    present_flags = [col for col in PRODUCT_FLAGS if col in out.columns]
+    mobile_norm = out["mobile_app_login_count"] / (out["mobile_app_login_count"].max() + 1)
+    web_norm = out["website_login_count"] / (out["website_login_count"].max() + 1)
+    out["composite_digital_score"] = (
+        mobile_norm * 35
+        + web_norm * 20
+        + out["digital_transaction_ratio"] * 25
+        + out["mobile_banking_active_flag"] * 10
+        + out["paperless_statement_enabled"] * 10
+    ).round(4)
+    out["low_digital_activity"] = (out["composite_digital_score"] < 20).astype(int)
+    out["balance_to_income_ratio"] = (out["avg_monthly_balance"] / (out["annual_income"] / 12 + 1)).round(4)
+    out["clv_to_income_ratio"] = (out["customer_lifetime_value"] / (out["annual_income"] + 1)).round(4)
+    out["spend_to_limit_ratio"] = (out["credit_card_spend"] / (out["credit_card_limit"] + 1)).round(4)
+    out["emi_to_income_ratio"] = (out["emi_amount"] / (out["monthly_income_estimate"] + 1)).round(4)
+    out["transaction_to_balance_ratio"] = (out["monthly_transaction_value"] / (out["avg_monthly_balance"] + 1)).round(4)
+    out["total_products_held"] = out[present_flags].sum(axis=1) if present_flags else 0
+    out["single_product_flag"] = (out["total_products_held"] == 1).astype(int)
+    out["multi_product_flag"] = (out["total_products_held"] >= 3).astype(int)
+    out["products_per_tenure"] = out["total_products_held"] / (out["tenure_months"] + 1)
+    out["complaint_resolution_ratio"] = (out["unresolved_complaint_count"] / (out["total_complaints"] + 1)).round(4)
+    out["high_complaint_flag"] = (out["total_complaints"] > out["total_complaints"].quantile(0.75)).astype(int)
+    out["escalation_rate"] = (out["escalation_count"] / (out["total_complaints"] + 1)).round(4)
+    out["satisfaction_nps_composite"] = (out["satisfaction_score"] * 0.5 + out["nps_score"] * 0.5).round(4)
+    out["low_satisfaction_flag"] = ((out["satisfaction_score"] < 3) | (out["nps_score"] < 3)).astype(int)
+    out["credit_risk_composite"] = (
+        out["loan_default_risk_score"] * 0.4
+        + out["credit_utilization_ratio"] * 0.3
+        + out["late_credit_card_payment_count"] * 0.2
+        + out["emi_payment_delay_count"] * 0.1
+    ).round(4)
+    out["financial_stress_flag"] = (
+        (out["credit_utilization_ratio"] > 0.8)
+        | (out["loan_default_risk_score"] > out["loan_default_risk_score"].quantile(0.85))
+        | (out["emi_payment_delay_count"] >= 3)
+    ).astype(int)
+    out["credit_utilization_trend"] = (out["credit_utilization_ratio"] - out["credit_utilization_3m_avg"]).round(4)
+    out["transaction_frequency_score"] = (out["monthly_transaction_count"] / (out["tenure_months"] + 1)).round(4)
+    out["upi_dominance_ratio"] = (out["upi_transaction_count"] / (out["monthly_transaction_count"] + 1)).round(4)
+    out["transaction_growth"] = out["total_ct_chng_q4_q1"]
+    out["high_cash_withdrawal_flag"] = (out["cash_withdrawal_count"] > out["cash_withdrawal_count"].quantile(0.8)).astype(int)
+    out["zero_balance_flag"] = (out["avg_monthly_balance"] <= 0).astype(int)
+    out["balance_declining_flag"] = (out["balance_decline_percentage"] > 20).astype(int)
+    out["login_days_x_inactive"] = out["last_login_days"] * out["account_inactive_days"]
+    out["dormancy_risk_flag"] = ((out["last_login_days"] > 30) & (out["account_inactive_days"] > 60)).astype(int)
+    out["recency_engagement_score"] = (
+        1 / (out["last_login_days"] + 1)
+        + 1 / (out["account_inactive_days"] + 1)
+        + 1 / (out["last_contacted_days"] + 1)
+    ).round(6)
+    out["campaign_response_rate"] = (out["campaign_response_count"] / (out["campaign_received_count"] + 1)).round(4)
+    out["retention_offer_response"] = (out["retention_offer_accepted"] / (out["retention_offer_received"] + 1)).round(4)
+    out["competitor_aware_flag"] = (
+        out["competitor_bank_offer_awareness"]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        .map({"aware": 1, "not aware": 0})
+        .fillna(0)
+        .astype(int)
     )
 
+    def min_max_norm(series: pd.Series) -> pd.Series:
+        return (series - series.min()) / (series.max() - series.min() + 1e-9)
+
+    out["customer_value"] = (
+        min_max_norm(out["customer_lifetime_value"]) * 0.4
+        + min_max_norm(out["annual_income"]) * 0.25
+        + min_max_norm(out["avg_monthly_balance"]) * 0.2
+        + min_max_norm(out["total_products_held"]) * 0.15
+    ).round(4)
+    out["wealth_tier"] = pd.cut(
+        out["customer_value"],
+        bins=[0, 0.25, 0.50, 0.75, 1.01],
+        labels=["Basic", "Standard", "Premium", "Elite"],
+    ).astype(str)
+    out["age_tenure_interaction"] = out["age"] * out["tenure_months"]
+    out["income_products_interaction"] = out["annual_income"] * out["total_products_held"]
+    out["complaints_x_inactivity"] = out["total_complaints"] * out["account_inactive_days"]
+    out["digital_x_balance"] = out["composite_digital_score"] * out["avg_monthly_balance"]
+    out["satisfaction_x_tenure"] = out["satisfaction_score"] * out["tenure_months"]
+    out["rfm_recency"] = min_max_norm(1 / (out["account_inactive_days"] + 1))
+    out["rfm_frequency"] = min_max_norm(out["monthly_transaction_count"])
+    out["rfm_monetary"] = min_max_norm(out["monthly_transaction_value"])
+    out["rfm_score"] = (
+        out["rfm_recency"] * 0.35
+        + out["rfm_frequency"] * 0.35
+        + out["rfm_monetary"] * 0.30
+    ).round(4)
+    for col in [
+        "annual_income",
+        "customer_lifetime_value",
+        "avg_monthly_balance",
+        "total_trans_amt",
+        "loan_outstanding_amount",
+    ]:
+        out[f"log_{col}"] = np.log1p(out[col].clip(lower=0))
+    return out.replace([np.inf, -np.inf], 0).fillna(0)
+
+
+def model_matrix(frame: pd.DataFrame, reference: pd.DataFrame | None = None) -> pd.DataFrame:
+    _, encoders, scaler, config, features = load_model_artifacts()
+    if reference is not None and len(reference):
+        ref = reference.drop(columns=["churn"], errors="ignore").copy()
+        current = frame.drop(columns=["churn"], errors="ignore").copy()
+        if "customer_id" in ref.columns and "customer_id" in current.columns:
+            ref = ref.set_index("customer_id", drop=False)
+            current = current.set_index("customer_id", drop=False)
+            missing_ids = current.index.difference(ref.index)
+            common_ids = current.index.intersection(ref.index)
+            if len(common_ids):
+                ref.loc[common_ids, current.columns] = current.loc[common_ids, current.columns]
+            if len(missing_ids):
+                ref = pd.concat([ref, current.loc[missing_ids]], axis=0)
+            engineered = add_model_features(ref.reset_index(drop=True))
+            engineered["customer_id"] = ref["customer_id"].to_numpy()
+            matrix = engineered.set_index("customer_id").loc[current.index]
+            matrix.index = frame.index
+        else:
+            work = pd.concat([ref, current], ignore_index=True)
+            matrix = add_model_features(work).tail(len(frame)).set_index(frame.index)
+    else:
+        matrix = add_model_features(frame)
+    for col, encoder in encoders.items():
+        class_map = {str(cls).lower(): cls for cls in encoder.classes_}
+        fallback = encoder.classes_[0]
+        matrix[col] = matrix[col].astype(str).str.lower().map(class_map).fillna(fallback)
+        matrix[col] = encoder.transform(matrix[col])
+    for feature in features:
+        if feature not in matrix.columns:
+            matrix[feature] = 0
+    matrix = matrix[features].apply(pd.to_numeric, errors="coerce").fillna(0)
+    if config.get("model_name") == "LogisticRegression":
+        scaled = scaler.transform(matrix)
+        return pd.DataFrame(scaled, columns=features, index=frame.index)
+    return matrix
+
+
+def predict_churn(frame: pd.DataFrame, reference: pd.DataFrame | None = None) -> np.ndarray:
+    model, _, _, _, _ = load_model_artifacts()
+    return model.predict_proba(model_matrix(frame, reference))[:, 1]
+
+
+def model_risk_label(probability: float) -> str:
+    _, _, _, config, _ = load_model_artifacts()
+    return "High" if probability >= float(config["threshold"]) else "Low"
+
+
+def model_tier(probability: float) -> tuple[str, str]:
+    _, _, _, config, _ = load_model_artifacts()
+    threshold = float(config["threshold"])
+    medium_cut, high_cut, critical_cut = globals().get(
+        "MODEL_PROBABILITY_CUTS",
+        (threshold, threshold, threshold),
+>>>>>>> Stashed changes
+    )
+    if probability >= critical_cut:
+        return "Critical Risk", DANGER
+    if probability >= high_cut:
+        return "High Risk", WARNING
+    if probability >= medium_cut:
+        return "Medium Risk", "#CA8A04"
+    return "Low Risk", SUCCESS
+
+<<<<<<< Updated upstream
     mobile_norm = numeric("mobile_app_login_count") / (stats["mobile_app_login_count_max"] + 1)
     web_norm = numeric("website_login_count") / (stats["website_login_count_max"] + 1)
     out["composite_digital_score"] = (
@@ -1271,10 +1696,13 @@ def format_probability(probability: float) -> str:
         return f"{probability:.3%}"
     return f"{probability:.1%}"
 
+=======
+>>>>>>> Stashed changes
 
 @st.cache_data(show_spinner=False)
 def load_feature_importance() -> pd.DataFrame:
     return pd.read_csv(ARTIFACT_DIR / "shap_feature_importance.csv")
+<<<<<<< Updated upstream
 
 
 @st.cache_data(show_spinner=False)
@@ -1383,11 +1811,27 @@ def top_model_drivers(row: pd.Series, limit: int = 8, engineered_row: pd.Series 
     engineered = engineered_row if engineered_row is not None else add_model_features(pd.DataFrame([row])).iloc[0]
     baseline = feature_baseline_medians(MODEL_REFERENCE)
     importance_lookup = importance.set_index("feature")["mean_abs_shap"].to_dict()
+=======
+
+
+@st.cache_data(show_spinner=False)
+def load_model_comparison() -> pd.DataFrame:
+    comparison = pd.read_csv(ARTIFACT_DIR / "model_comparison_results.csv", index_col=0).reset_index()
+    comparison = comparison.rename(columns={"index": "model"})
+    return comparison
+
+
+def top_model_drivers(row: pd.Series, limit: int = 8) -> pd.DataFrame:
+    importance = load_feature_importance()
+    engineered = add_model_features(pd.DataFrame([row])).iloc[0]
+    baseline = add_model_features(df).median(numeric_only=True)
+>>>>>>> Stashed changes
     rows = []
     for feature in importance["feature"]:
         if feature not in engineered.index:
             continue
         value = engineered[feature]
+<<<<<<< Updated upstream
         model_importance = round(float(importance_lookup.get(feature, 0)), 4)
         if not pd.api.types.is_number(value):
             rows.append(
@@ -1409,6 +1853,21 @@ def top_model_drivers(row: pd.Series, limit: int = 8, engineered_row: pd.Series 
                     "model_importance": model_importance,
                 }
             )
+=======
+        if isinstance(value, str):
+            rows.append({"feature": feature, "input_value": value, "model_importance": importance.loc[importance["feature"] == feature, "mean_abs_shap"].iloc[0]})
+            continue
+        base = float(baseline.get(feature, 0))
+        if abs(float(value) - base) > 1e-9:
+            rows.append(
+                {
+                    "feature": feature,
+                    "input_value": round(float(value), 4),
+                    "dataset_median": round(base, 4),
+                    "model_importance": importance.loc[importance["feature"] == feature, "mean_abs_shap"].iloc[0],
+                }
+            )
+>>>>>>> Stashed changes
         if len(rows) >= limit:
             break
     result = pd.DataFrame(rows)
@@ -1417,6 +1876,10 @@ def top_model_drivers(row: pd.Series, limit: int = 8, engineered_row: pd.Series 
     return result
 
 
+<<<<<<< Updated upstream
+=======
+@st.cache_data(show_spinner=False)
+>>>>>>> Stashed changes
 def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     train_path = PROCESSED_DATA_DIR / "train_cleaned.csv"
     test_path = PROCESSED_DATA_DIR / "test_cleaned.csv"
@@ -1424,6 +1887,7 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     df_test = pd.read_csv(test_path if test_path.exists() else RAW_DATA_DIR / "ChurnZero_test_v1.csv")
     df.columns = df.columns.str.strip()
     df_test.columns = df_test.columns.str.strip()
+<<<<<<< Updated upstream
 
     def attach_notebook_scoring(frame: pd.DataFrame, scoring_filename: str, scope_label: str) -> pd.DataFrame:
         frame = frame.copy()
@@ -2880,6 +3344,765 @@ with tab_predict:
                 unsafe_allow_html=True,
             )
 
+=======
+
+    product_flags = [
+        "savings_account_flag",
+        "current_account_flag",
+        "credit_card_flag",
+        "personal_loan_flag",
+        "home_loan_flag",
+        "auto_loan_flag",
+        "fixed_deposit_flag",
+        "investment_product_flag",
+        "insurance_product_flag",
+        "demat_account_flag",
+    ]
+    present_flags = [col for col in product_flags if col in df.columns]
+    df["total_products_held"] = df[present_flags].sum(axis=1) if present_flags else 0
+    df["single_product_flag"] = (df["total_products_held"] == 1).astype(int)
+
+    scoring_path = BASE_DIR / "retention_flow_outputs" / "retentionflow_train_scoring.csv"
+    if scoring_path.exists():
+        scoring = pd.read_csv(scoring_path)
+        scoring.columns = scoring.columns.str.strip()
+        scoring_cols = [
+            "customer_id",
+            "churn_probability",
+            "churn_prediction",
+            "customer_value",
+            "wealth_tier",
+            "priority_score",
+            "revenue_at_risk",
+            "recoverable_revenue",
+            "net_benefit",
+            "recommended_action",
+            "recommendation_reason",
+            "expected_impact",
+            "recommended_channel",
+            "num_risk_factors",
+        ]
+        scoring_cols = [col for col in scoring_cols if col in scoring.columns]
+        df = df.merge(scoring[scoring_cols], on="customer_id", how="left")
+        df = df.rename(columns={"churn_probability": "notebook_churn_probability", "churn_prediction": "notebook_churn_prediction"})
+    if "customer_value" not in df.columns:
+        engineered = add_model_features(df)
+        df["customer_value"] = engineered["customer_value"]
+        df["wealth_tier"] = engineered["wealth_tier"]
+    df["age_band"] = pd.cut(
+        df["age"],
+        bins=[25, 35, 45, 55, 65, 75],
+        labels=["26-35", "36-45", "46-55", "56-65", "66-75"],
+    )
+    df["income_band_calc"] = pd.cut(
+        df["annual_income"],
+        bins=[0, 50_000, 100_000, 150_000, 200_000, 300_000],
+        labels=["<50K", "50-100K", "100-150K", "150-200K", "200K+"],
+    )
+    return df, df_test
+
+df, df_test = load_data()
+MODEL_PROBABILITY_CUTS = tuple(np.quantile(predict_churn(df, df), [0.50, 0.75, 0.90]))
+
+
+with st.sidebar:
+    st.markdown('<div class="wordmark">Retention<span>Flow</span></div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="sidebar-subtitle">CHURNZERO INTELLIGENCE SYSTEM</div>',
+        unsafe_allow_html=True,
+    )
+    st.divider()
+
+    st.markdown('<div class="sidebar-label">Data Scope</div>', unsafe_allow_html=True)
+    st.selectbox("Data Scope", ["Training Data", "Full Dataset"], label_visibility="collapsed")
+
+    st.markdown('<div class="sidebar-label">Region</div>', unsafe_allow_html=True)
+    sel_region = st.selectbox(
+        "Region",
+        ["All"] + sorted(df["region"].dropna().unique().tolist()),
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">City Tier</div>', unsafe_allow_html=True)
+    sel_tier = st.selectbox(
+        "City Tier",
+        ["All"] + sorted(df["city_tier"].dropna().unique().tolist()),
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">Customer Segment</div>', unsafe_allow_html=True)
+    sel_segment = st.selectbox(
+        "Customer Segment",
+        ["All"] + sorted(df["customer_segment"].dropna().unique().tolist()),
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">Card Category</div>', unsafe_allow_html=True)
+    sel_card = st.selectbox(
+        "Card Category",
+        ["All"] + sorted(df["card_category"].dropna().unique().tolist()),
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">Gender</div>', unsafe_allow_html=True)
+    sel_gender = st.selectbox(
+        "Gender",
+        ["All"] + sorted(df["gender"].dropna().unique().tolist()),
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">Risk Tier</div>', unsafe_allow_html=True)
+    sel_risk = st.selectbox(
+        "Risk Tier",
+        ["All", "Critical", "High", "Medium", "Low"],
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">Tenure Range</div>', unsafe_allow_html=True)
+    tenure_range = st.slider(
+        "Tenure Range",
+        int(df["tenure_months"].min()),
+        int(df["tenure_months"].max()),
+        (int(df["tenure_months"].min()), int(df["tenure_months"].max())),
+        label_visibility="collapsed",
+    )
+
+    st.markdown('<div class="sidebar-label">Age Range</div>', unsafe_allow_html=True)
+    age_range = st.slider(
+        "Age Range",
+        int(df["age"].min()),
+        int(df["age"].max()),
+        (int(df["age"].min()), int(df["age"].max())),
+        label_visibility="collapsed",
+    )
+
+
+fdf = df.copy()
+if sel_region != "All":
+    fdf = fdf[fdf["region"] == sel_region]
+if sel_tier != "All":
+    fdf = fdf[fdf["city_tier"] == sel_tier]
+if sel_segment != "All":
+    fdf = fdf[fdf["customer_segment"] == sel_segment]
+if sel_card != "All":
+    fdf = fdf[fdf["card_category"] == sel_card]
+if sel_gender != "All":
+    fdf = fdf[fdf["gender"] == sel_gender]
+fdf = fdf[fdf["tenure_months"].between(*tenure_range)]
+fdf = fdf[fdf["age"].between(*age_range)]
+
+total_customers = len(fdf)
+_, _, _, model_config, _ = load_model_artifacts()
+model_threshold = float(model_config["threshold"])
+fn_cost = float(model_config["fn_cost"])
+fp_cost = float(model_config["fp_cost"])
+if total_customers:
+    fdf = fdf.copy()
+    fdf["ml_churn_probability"] = predict_churn(fdf, df)
+    fdf["ml_predicted_churn"] = (fdf["ml_churn_probability"] >= model_threshold).astype(int)
+    fdf["risk_tier"] = fdf["ml_churn_probability"].apply(lambda prob: model_tier(float(prob))[0].replace(" Risk", ""))
+    if sel_risk != "All":
+        fdf = fdf[fdf["risk_tier"] == sel_risk]
+        total_customers = len(fdf)
+else:
+    fdf = fdf.copy()
+    fdf["ml_churn_probability"] = []
+    fdf["ml_predicted_churn"] = []
+churners = int(fdf["ml_predicted_churn"].sum()) if total_customers else 0
+churn_rate = fdf["ml_churn_probability"].mean() if total_customers else 0
+avg_clv = fdf["customer_lifetime_value"].mean() if total_customers else 0
+avg_sat = fdf["satisfaction_score"].mean() if total_customers else 0
+avg_nps = fdf["nps_score"].mean() if total_customers else 0
+revenue_at_risk = fdf["revenue_at_risk"].sum() if total_customers and "revenue_at_risk" in fdf.columns else 0
+
+
+st.markdown(
+    """
+    <div style="display:flex;align-items:baseline;gap:1rem;">
+        <div style="font-size:2rem;font-weight:900;color:#0F172A;">RetentionFlow</div>
+        <div style="font-size:1rem;font-weight:800;color:#0EA5E9;letter-spacing:0.04em;">
+            CHURNZERO INTELLIGENCE PLATFORM
+        </div>
+    </div>
+    <div style="color:#64748B;font-size:0.9rem;margin-bottom:0.9rem;">
+        Bank churn prediction, risk scoring, revenue recovery, and retention planning.
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+def kpi(col, label: str, value: str, sub: str, color: str = ACCENT) -> None:
+    col.markdown(
+        f"""
+        <div class="kpi-card">
+            <div class="kpi-label">{label}</div>
+            <div class="kpi-value" style="color:{color};">{value}</div>
+            <div class="kpi-sub">{sub}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+k1, k2, k3, k4, k5, k6 = st.columns(6)
+kpi(k1, "Total Customers", f"{total_customers:,}", "Filtered dataset", ACCENT)
+kpi(k2, "Predicted Churners", f"{churners:,}", f"{churn_rate:.1%} churn rate", DANGER)
+kpi(k3, "Avg CLV", f"INR {avg_clv:,.0f}", "Customer lifetime value", ACCENT_2)
+kpi(k4, "Avg Satisfaction", f"{avg_sat:.2f} / 5", "Service score", SUCCESS)
+kpi(k5, "Avg NPS", f"{avg_nps:.1f}", "Net promoter score", WARNING)
+kpi(k6, "Revenue at Risk", f"INR {revenue_at_risk / 1e6:.1f}M", "Notebook scoring output", DANGER)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+tab_overview, tab_eda, tab_features, tab_risk, tab_recs, tab_revenue, tab_predict = st.tabs(
+    [
+        "Overview",
+        "EDA Deep-Dive",
+        "Feature Insights",
+        "Risk Scoring",
+        "Recommendations",
+        "Revenue Recovery",
+        "Churn Predictor",
+    ]
+)
+
+
+with tab_overview:
+    c1, c2, c3 = st.columns([1.1, 1.1, 1])
+
+    with c1:
+        st.markdown('<div class="section-header">ML Churn Probability by Region</div>', unsafe_allow_html=True)
+        region = fdf.groupby("region").agg(customers=("ml_predicted_churn", "count"), churn_probability=("ml_churn_probability", "mean")).reset_index()
+        region["churn_probability"] = (region["churn_probability"] * 100).round(2)
+        fig = px.bar(region, x="region", y="churn_probability", text="churn_probability", color="churn_probability", color_continuous_scale=[SUCCESS, WARNING, DANGER])
+        fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", marker_line_width=0)
+        fig.update_coloraxes(showscale=False)
+        apply_layout(fig, 310)
+        fig.update_layout(xaxis_title="", yaxis_title="ML Churn Probability (%)")
+        st.plotly_chart(fig, width="stretch")
+
+    with c2:
+        st.markdown('<div class="section-header">Customers by Segment</div>', unsafe_allow_html=True)
+        segment = fdf["customer_segment"].value_counts().reset_index()
+        segment.columns = ["segment", "customers"]
+        fig = go.Figure(
+            go.Pie(
+                labels=segment["segment"],
+                values=segment["customers"],
+                hole=0.62,
+                marker=dict(colors=[ACCENT, ACCENT_2, SUCCESS], line=dict(color=SURFACE, width=2)),
+            )
+        )
+        fig.update_traces(textinfo="label+percent", textfont=dict(family="Raleway", size=11))
+        apply_layout(fig, 310)
+        fig.update_layout(showlegend=False)
+        st.plotly_chart(fig, width="stretch")
+
+    with c3:
+        st.markdown('<div class="section-header">ML Churn Probability by Card Type</div>', unsafe_allow_html=True)
+        card = fdf.groupby("card_category")["ml_churn_probability"].mean().reset_index()
+        card.columns = ["card", "churn_probability"]
+        card["churn_probability"] = (card["churn_probability"] * 100).round(2)
+        fig = px.bar(card.sort_values("churn_probability"), x="churn_probability", y="card", orientation="h", text="churn_probability", color="churn_probability", color_continuous_scale=[SUCCESS, DANGER])
+        fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", marker_line_width=0)
+        fig.update_coloraxes(showscale=False)
+        apply_layout(fig, 310)
+        fig.update_layout(xaxis_title="ML Churn Probability (%)", yaxis_title="")
+        st.plotly_chart(fig, width="stretch")
+
+    st.divider()
+    c4, c5 = st.columns([1.5, 1])
+
+    with c4:
+        st.markdown('<div class="section-header">ML Churn Probability by Tenure Band</div>', unsafe_allow_html=True)
+        temp = fdf.copy()
+        temp["tenure_band"] = pd.cut(temp["tenure_months"], bins=range(0, 125, 12))
+        tenure = temp.groupby("tenure_band", observed=True).agg(churn_probability=("ml_churn_probability", "mean"), customers=("ml_predicted_churn", "count")).reset_index()
+        tenure["tenure_band"] = tenure["tenure_band"].astype(str)
+        tenure["churn_probability"] = (tenure["churn_probability"] * 100).round(2)
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=tenure["tenure_band"], y=tenure["churn_probability"], mode="lines+markers", name="ML probability", line=dict(color=ACCENT, width=3)))
+        fig.add_trace(go.Bar(x=tenure["tenure_band"], y=tenure["customers"], name="Customers", yaxis="y2", marker_color="rgba(99,102,241,0.28)"))
+        apply_layout(fig, 330)
+        fig.update_layout(
+            yaxis=dict(title="ML Churn Probability (%)"),
+            yaxis2=dict(title="Customers", overlaying="y", side="right", showgrid=False),
+            legend=dict(orientation="h", y=1.12, x=0.74),
+        )
+        st.plotly_chart(fig, width="stretch")
+
+    with c5:
+        st.markdown('<div class="section-header">Risk Tier Distribution</div>', unsafe_allow_html=True)
+        risk_counts = fdf["risk_tier"].value_counts().reindex(["Critical", "High", "Medium", "Low"]).dropna().reset_index()
+        risk_counts.columns = ["tier", "customers"]
+        colors = {"Critical": DANGER, "High": WARNING, "Medium": "#CA8A04", "Low": SUCCESS}
+        fig = px.bar(risk_counts, x="tier", y="customers", text="customers", color="tier", color_discrete_map=colors)
+        fig.update_traces(textposition="outside", marker_line_width=0)
+        apply_layout(fig, 330)
+        fig.update_layout(showlegend=False, xaxis_title="", yaxis_title="Customers")
+        st.plotly_chart(fig, width="stretch")
+
+
+with tab_eda:
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown('<div class="section-header">CLV Distribution by ML Decision</div>', unsafe_allow_html=True)
+        ml_status = fdf["ml_predicted_churn"].map({0: "Retain", 1: "Predicted Churn"})
+        fig = px.box(fdf, x=ml_status, y="customer_lifetime_value", color=ml_status, color_discrete_map={"Retain": SUCCESS, "Predicted Churn": DANGER})
+        apply_layout(fig, 340)
+        fig.update_layout(xaxis_title="", yaxis_title="CLV")
+        st.plotly_chart(fig, width="stretch")
+
+    with c2:
+        st.markdown('<div class="section-header">Satisfaction vs NPS</div>', unsafe_allow_html=True)
+        sample = fdf.sample(min(1200, len(fdf)), random_state=42) if len(fdf) else fdf
+        sample_status = sample["ml_predicted_churn"].map({0: "Retain", 1: "Predicted Churn"})
+        fig = px.scatter(sample, x="satisfaction_score", y="nps_score", color=sample_status, color_discrete_map={"Retain": SUCCESS, "Predicted Churn": DANGER}, opacity=0.65)
+        apply_layout(fig, 340)
+        fig.update_layout(xaxis_title="Satisfaction Score", yaxis_title="NPS Score", legend_title="")
+        st.plotly_chart(fig, width="stretch")
+
+    st.divider()
+    c3, c4 = st.columns(2)
+    with c3:
+        st.markdown('<div class="section-header">Digital Engagement vs ML Churn Probability</div>', unsafe_allow_html=True)
+        digital = fdf.groupby("mobile_banking_active_flag")["ml_churn_probability"].mean().reset_index()
+        digital["mobile_banking_active_flag"] = digital["mobile_banking_active_flag"].map({0: "Inactive", 1: "Active"})
+        digital["churn_probability"] = (digital["ml_churn_probability"] * 100).round(2)
+        fig = px.bar(digital, x="mobile_banking_active_flag", y="churn_probability", text="churn_probability", color="mobile_banking_active_flag", color_discrete_map={"Active": SUCCESS, "Inactive": DANGER})
+        fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", marker_line_width=0)
+        apply_layout(fig, 320)
+        fig.update_layout(showlegend=False, xaxis_title="", yaxis_title="ML Churn Probability (%)")
+        st.plotly_chart(fig, width="stretch")
+
+    with c4:
+        st.markdown('<div class="section-header">ML Churn Probability Heatmap</div>', unsafe_allow_html=True)
+        heat = fdf.groupby(["region", "customer_segment"])["ml_churn_probability"].mean().unstack().fillna(0) * 100
+        fig = px.imshow(heat, text_auto=".1f", color_continuous_scale=[SOFT, WARNING, DANGER], aspect="auto")
+        apply_layout(fig, 320)
+        st.plotly_chart(fig, width="stretch")
+
+
+with tab_features:
+    st.markdown(
+        '<div class="info-box">Feature signals are calculated against the trained model probability and saved model importance artifacts.</div>',
+        unsafe_allow_html=True,
+    )
+    numeric = fdf.select_dtypes(include=[np.number]).columns.tolist()
+    numeric = [col for col in numeric if col not in {"churn", "customer_id", "ml_predicted_churn", "ml_churn_probability"}]
+    corr = fdf[numeric + ["ml_churn_probability"]].corr(numeric_only=True)["ml_churn_probability"].drop("ml_churn_probability").dropna()
+    corr_df = corr.abs().sort_values(ascending=False).head(25).reset_index()
+    corr_df.columns = ["feature", "absolute_correlation"]
+    corr_df["direction"] = np.where(corr[corr_df["feature"]].values > 0, "Raises model probability", "Lowers model probability")
+
+    c1, c2 = st.columns([1.5, 1])
+    with c1:
+        st.markdown('<div class="section-header">Top Features Correlated with ML Probability</div>', unsafe_allow_html=True)
+        fig = px.bar(corr_df, x="absolute_correlation", y="feature", orientation="h", color="direction", text="absolute_correlation", color_discrete_map={"Raises model probability": DANGER, "Lowers model probability": SUCCESS})
+        fig.update_traces(texttemplate="%{text:.3f}", textposition="outside", marker_line_width=0)
+        apply_layout(fig, 620)
+        fig.update_yaxes(autorange="reversed")
+        fig.update_layout(xaxis_title="Absolute Correlation", yaxis_title="", legend_title="")
+        st.plotly_chart(fig, width="stretch")
+
+    with c2:
+        st.markdown('<div class="section-header">Feature Summary</div>', unsafe_allow_html=True)
+        st.dataframe(corr_df.head(15), width="stretch", height=620)
+
+    st.divider()
+    st.markdown('<div class="section-header">Trained Model Benchmark</div>', unsafe_allow_html=True)
+    model_comparison = load_model_comparison()
+    m1, m2 = st.columns([1.2, 1])
+    with m1:
+        fig = px.bar(
+            model_comparison.sort_values("PR_AUC", ascending=True),
+            x="PR_AUC",
+            y="model",
+            orientation="h",
+            text="PR_AUC",
+            color="Biz_Cost_INR",
+            color_continuous_scale=[SUCCESS, WARNING, DANGER],
+        )
+        fig.update_traces(texttemplate="%{text:.4f}", textposition="outside", marker_line_width=0)
+        fig.update_coloraxes(showscale=False)
+        apply_layout(fig, 330)
+        fig.update_layout(xaxis_title="PR AUC", yaxis_title="")
+        st.plotly_chart(fig, width="stretch")
+    with m2:
+        st.dataframe(model_comparison, width="stretch", height=330)
+
+
+with tab_risk:
+    risk_df = fdf.copy()
+    if "priority_score" not in risk_df.columns:
+        risk_df["priority_score"] = (risk_df["ml_churn_probability"] * 100).round(1)
+    risk_df["model_cost_exposure"] = risk_df["revenue_at_risk"] if "revenue_at_risk" in risk_df.columns else 0
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown('<div class="section-header">Risk Tier Breakdown</div>', unsafe_allow_html=True)
+        counts = risk_df["risk_tier"].value_counts().reindex(["Critical", "High", "Medium", "Low"]).dropna().reset_index()
+        counts.columns = ["tier", "customers"]
+        fig = px.bar(counts, x="tier", y="customers", color="tier", text="customers", color_discrete_map={"Critical": DANGER, "High": WARNING, "Medium": "#CA8A04", "Low": SUCCESS})
+        fig.update_traces(textposition="outside", marker_line_width=0)
+        apply_layout(fig, 340)
+        fig.update_layout(showlegend=False, xaxis_title="", yaxis_title="Customers")
+        st.plotly_chart(fig, width="stretch")
+
+    with c2:
+        st.markdown('<div class="section-header">Priority Score vs CLV</div>', unsafe_allow_html=True)
+        sample = risk_df.sample(min(1500, len(risk_df)), random_state=7) if len(risk_df) else risk_df
+        fig = px.scatter(sample, x="customer_lifetime_value", y="priority_score", color="risk_tier", size="model_cost_exposure", color_discrete_map={"Critical": DANGER, "High": WARNING, "Medium": "#CA8A04", "Low": SUCCESS}, opacity=0.65)
+        apply_layout(fig, 340)
+        fig.update_layout(xaxis_title="Customer Lifetime Value", yaxis_title="Priority Score", legend_title="Risk Tier")
+        st.plotly_chart(fig, width="stretch")
+
+    st.markdown('<div class="section-header">High-Priority Customer Watchlist</div>', unsafe_allow_html=True)
+    watchlist = risk_df.sort_values("priority_score", ascending=False).head(100)
+    st.dataframe(
+        watchlist[
+            [
+                "customer_id",
+                "region",
+                "customer_segment",
+                "card_category",
+                "risk_tier",
+                "priority_score",
+                "ml_churn_probability",
+                "customer_lifetime_value",
+                "model_cost_exposure",
+                "satisfaction_score",
+                "total_complaints",
+            ]
+        ],
+        width="stretch",
+        height=420,
+    )
+
+
+with tab_recs:
+    rec_df = fdf[fdf["ml_predicted_churn"] == 1].copy()
+
+    c1, c2, c3 = st.columns(3)
+    kpi(c1, "Actionable Customers", f"{len(rec_df):,}", "Predicted by ML model", DANGER)
+    kpi(c2, "Model Threshold", f"{model_threshold:.2f}", "Loaded from config", WARNING)
+    kpi(c3, "Revenue at Risk", f"INR {rec_df['revenue_at_risk'].sum() / 1e6:.1f}M" if len(rec_df) and "revenue_at_risk" in rec_df.columns else "INR 0.0M", "Notebook scoring output", SUCCESS)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    if len(rec_df):
+        c4, c5 = st.columns(2)
+        with c4:
+            st.markdown('<div class="section-header">Notebook Recommendations</div>', unsafe_allow_html=True)
+            action_counts = rec_df["recommended_action"].value_counts().reset_index()
+            action_counts.columns = ["recommended_action", "customers"]
+            fig = px.bar(action_counts, x="customers", y="recommended_action", orientation="h", text="customers", color_discrete_sequence=[ACCENT])
+            fig.update_traces(textposition="outside", marker_line_width=0)
+            apply_layout(fig, 340)
+            fig.update_yaxes(autorange="reversed")
+            fig.update_layout(xaxis_title="Customers", yaxis_title="")
+            st.plotly_chart(fig, width="stretch")
+
+        with c5:
+            st.markdown('<div class="section-header">Expected Impact</div>', unsafe_allow_html=True)
+            impact_df = rec_df["expected_impact"].value_counts().reset_index()
+            impact_df.columns = ["expected_impact", "customers"]
+            fig = px.pie(impact_df, names="expected_impact", values="customers", hole=0.55, color_discrete_sequence=[DANGER, WARNING, SUCCESS, ACCENT])
+            apply_layout(fig, 340)
+            st.plotly_chart(fig, width="stretch")
+
+        st.markdown('<div class="section-header">Customer Action Table</div>', unsafe_allow_html=True)
+        st.dataframe(
+            rec_df[
+                [
+                    "customer_id",
+                    "customer_segment",
+                    "card_category",
+                    "risk_tier",
+                    "ml_churn_probability",
+                    "priority_score",
+                    "revenue_at_risk",
+                    "recoverable_revenue",
+                    "recommended_action",
+                    "recommendation_reason",
+                    "expected_impact",
+                ]
+            ].head(250),
+            width="stretch",
+            height=420,
+        )
+    else:
+        st.info("No customers crossed the trained model threshold in the current filters.")
+
+
+with tab_revenue:
+    churner_df = fdf[fdf["ml_predicted_churn"] == 1].copy()
+    total_risk = churner_df["revenue_at_risk"].sum() if "revenue_at_risk" in churner_df.columns else 0
+    recoverable = churner_df["recoverable_revenue"].sum() if "recoverable_revenue" in churner_df.columns else 0
+    net = churner_df["net_benefit"].sum() if "net_benefit" in churner_df.columns else 0
+    spend = recoverable - net
+    roi = net / (spend + 1)
+
+    c1, c2, c3, c4 = st.columns(4)
+    kpi(c1, "Revenue at Risk", f"INR {total_risk / 1e6:.1f}M", "Notebook scoring output", DANGER)
+    kpi(c2, "Recoverable Revenue", f"INR {recoverable / 1e6:.1f}M", "Notebook scoring output", SUCCESS)
+    kpi(c3, "Retention Spend", f"INR {spend / 1e6:.2f}M", "Notebook scoring output", WARNING)
+    kpi(c4, "Net Benefit Ratio", f"{roi:.1f}x", "Notebook scoring output", ACCENT)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    c5, c6 = st.columns(2)
+    with c5:
+        st.markdown('<div class="section-header">Revenue Waterfall</div>', unsafe_allow_html=True)
+        fig = go.Figure(
+            go.Waterfall(
+                x=["Revenue at Risk", "Recoverable Revenue", "Retention Spend", "Net Benefit"],
+                y=[total_risk / 1e6, recoverable / 1e6, -spend / 1e6, net / 1e6],
+                measure=["absolute", "relative", "relative", "total"],
+                texttemplate="INR %{value:.2f}M",
+                connector=dict(line=dict(color=BORDER)),
+                increasing=dict(marker=dict(color=SUCCESS)),
+                decreasing=dict(marker=dict(color=DANGER)),
+                totals=dict(marker=dict(color=ACCENT)),
+            )
+        )
+        apply_layout(fig, 350)
+        fig.update_layout(yaxis_title="INR Millions")
+        st.plotly_chart(fig, width="stretch")
+
+    with c6:
+        st.markdown('<div class="section-header">Model Cost by Segment</div>', unsafe_allow_html=True)
+        seg = churner_df.groupby("customer_segment")[["revenue_at_risk", "recoverable_revenue"]].sum().reset_index()
+        fig = go.Figure()
+        fig.add_trace(go.Bar(name="Revenue at Risk", x=seg["customer_segment"], y=seg["revenue_at_risk"] / 1e6, marker_color=DANGER))
+        fig.add_trace(go.Bar(name="Recoverable Revenue", x=seg["customer_segment"], y=seg["recoverable_revenue"] / 1e6, marker_color=SUCCESS))
+        apply_layout(fig, 350)
+        fig.update_layout(barmode="group", yaxis_title="INR Millions", xaxis_title="")
+        st.plotly_chart(fig, width="stretch")
+
+
+with tab_predict:
+    predictor_source = df_test.copy()
+    predictor_source["ml_churn_probability"] = predict_churn(predictor_source, df_test)
+    predictor_source["ml_predicted_churn"] = (predictor_source["ml_churn_probability"] >= model_threshold).astype(int)
+    predictor_source["risk_tier"] = predictor_source["ml_churn_probability"].apply(lambda prob: model_tier(float(prob))[0].replace(" Risk", ""))
+
+    def labelize(column: str) -> str:
+        return column.replace("_", " ").title()
+
+    def field_options(column: str) -> list[str]:
+        values = pd.concat([df[column], predictor_source[column]], ignore_index=True) if column in df.columns else predictor_source[column]
+        return sorted(values.dropna().astype(str).unique().tolist())
+
+    def render_predictor_field(container, column: str, value, row_number: int):
+        key = f"predictor_{row_number}_{column}"
+        label = labelize(column)
+        series = predictor_source[column]
+        if column.endswith("_flag") or set(series.dropna().unique()).issubset({0, 1}):
+            selected = container.selectbox(label, ["No", "Yes"], index=int(float(value)) if pd.notna(value) else 0, key=key)
+            return 1 if selected == "Yes" else 0
+        if pd.api.types.is_numeric_dtype(series):
+            if series.notna().any():
+                min_value = float(series.min())
+                max_value = float(series.max())
+                numeric_value = float(series.median()) if pd.isna(value) else float(value)
+            else:
+                min_value = 0.0
+                max_value = 1.0
+                numeric_value = 0.0
+            numeric_value = min(max(numeric_value, min_value), max_value)
+            if pd.api.types.is_integer_dtype(series):
+                return container.number_input(
+                    label,
+                    min_value=int(np.floor(min_value)),
+                    max_value=int(np.ceil(max_value)),
+                    value=int(round(numeric_value)),
+                    key=key,
+                )
+            return container.number_input(
+                label,
+                min_value=float(min_value),
+                max_value=float(max(max_value, numeric_value)),
+                value=float(numeric_value),
+                key=key,
+            )
+        options = field_options(column)
+        string_value = "" if pd.isna(value) else str(value)
+        index = options.index(string_value) if string_value in options else 0
+        return container.selectbox(label, options, index=index, key=key)
+
+    predictor_groups = {
+        "Customer Profile": [
+            "age",
+            "gender",
+            "marital_status",
+            "education_level",
+            "dependent_count",
+            "occupation_type",
+            "annual_income",
+            "income_band",
+            "income_category",
+            "city_tier",
+            "region",
+            "customer_segment",
+        ],
+        "Relationship and Account": [
+            "tenure_months",
+            "onboarding_channel",
+            "relationship_type",
+            "number_of_products",
+            "primary_account_type",
+            "card_category",
+            "customer_lifetime_value",
+            "loyalty_program_member",
+            "referral_count",
+            "last_contacted_days",
+            "relationship_manager_assigned",
+        ],
+        "Balances and Transactions": [
+            "avg_monthly_balance",
+            "current_balance",
+            "balance_decline_percentage",
+            "monthly_transaction_count",
+            "monthly_transaction_value",
+            "cash_withdrawal_count",
+            "upi_transaction_count",
+            "debit_card_transaction_count",
+            "net_banking_transaction_count",
+            "account_inactive_days",
+            "total_trans_amt",
+            "total_trans_count",
+            "total_amt_chng_q4_q1",
+            "total_ct_chng_q4_q1",
+            "avg_open_to_buy",
+            "total_revolving_bal",
+        ],
+        "Products Held": PRODUCT_FLAGS,
+        "Credit and Loan": [
+            "credit_card_limit",
+            "credit_card_spend",
+            "credit_utilization_ratio",
+            "minimum_due_paid_flag",
+            "late_credit_card_payment_count",
+            "loan_outstanding_amount",
+            "emi_amount",
+            "emi_payment_delay_count",
+            "loan_default_risk_score",
+            "prepayment_flag",
+            "credit_utilization_3m_avg",
+            "credit_utilization_6m_avg",
+            "debt_to_income_ratio",
+        ],
+        "Digital Engagement": [
+            "mobile_app_login_count",
+            "website_login_count",
+            "digital_transaction_ratio",
+            "last_login_days",
+            "failed_login_count",
+            "app_rating_given",
+            "paperless_statement_enabled",
+            "digital_service_usage_score",
+            "mobile_banking_active_flag",
+            "email_open_rate",
+            "total_digital_logins",
+            "digital_engagement_index",
+        ],
+        "Service and Feedback": [
+            "total_complaints",
+            "complaint_resolution_time",
+            "unresolved_complaint_count",
+            "branch_visit_count",
+            "call_center_interaction_count",
+            "relationship_manager_interaction_count",
+            "service_request_count",
+            "escalation_count",
+            "satisfaction_score",
+            "nps_score",
+            "customer_feedback_sentiment",
+        ],
+        "Campaign and Retention": [
+            "campaign_received_count",
+            "campaign_response_count",
+            "cross_sell_offer_count",
+            "upsell_offer_count",
+            "retention_offer_received",
+            "retention_offer_accepted",
+            "last_campaign_response_days",
+            "discount_or_fee_waiver_received",
+            "competitor_bank_offer_awareness",
+            "monthly_income_estimate",
+            "avg_quarterly_balance",
+        ],
+    }
+
+    customer_options = predictor_source.index.tolist()
+
+    def customer_label(index: int) -> str:
+        row = predictor_source.loc[index]
+        return f"{row['customer_id']} | {row['risk_tier']} | {row['ml_churn_probability']:.1%}"
+
+    selected_index = st.selectbox(
+        "Test CSV Customer",
+        customer_options,
+        format_func=customer_label,
+        key="predictor_test_customer",
+    )
+    selected_row = predictor_source.loc[selected_index]
+
+    input_row = selected_row.drop(labels=["ml_churn_probability", "ml_predicted_churn", "risk_tier"], errors="ignore").to_dict()
+
+    with st.form("model_predictor_form"):
+        for group_name, columns in predictor_groups.items():
+            visible_columns = [column for column in columns if column in predictor_source.columns]
+            if not visible_columns:
+                continue
+            st.markdown(f'<div class="section-header">{group_name}</div>', unsafe_allow_html=True)
+            for start in range(0, len(visible_columns), 4):
+                cols = st.columns(4)
+                for container, column in zip(cols, visible_columns[start:start + 4]):
+                    input_row[column] = render_predictor_field(container, column, selected_row[column], selected_index)
+
+        submitted = st.form_submit_button("Calculate Churn Risk")
+
+    if submitted:
+        input_frame = pd.DataFrame([input_row])
+        score = float(predict_churn(input_frame, predictor_source)[0])
+        tier, tier_color = model_tier(score)
+        predicted_label = "Churn" if score >= model_threshold else "Retain"
+        cost_exposure = score * fn_cost + (1 - score) * fp_cost
+        drivers = top_model_drivers(pd.Series(input_row), 12)
+
+        r1, r2, r3 = st.columns(3)
+        kpi(r1, "Churn Risk Score", f"{score:.1%}", tier, tier_color)
+        kpi(r2, "Model Decision", predicted_label, f"Threshold {model_threshold:.2f}", SUCCESS if predicted_label == "Retain" else DANGER)
+        kpi(r3, "Cost Exposure", f"INR {cost_exposure:,.0f}", f"FN {fn_cost:,.0f} / FP {fp_cost:,.0f}", ACCENT)
+
+        if len(drivers):
+            st.markdown('<div class="section-header">Primary Risk Drivers</div>', unsafe_allow_html=True)
+            st.dataframe(drivers, width="stretch", height=300)
+
+        fig = go.Figure(
+            go.Indicator(
+                mode="gauge+number",
+                value=score * 100,
+                number=dict(suffix="%", font=dict(color=tier_color, family="Raleway")),
+                gauge=dict(
+                    axis=dict(range=[0, 100], tickfont=dict(color=MUTED), tickcolor=BORDER),
+                    bar=dict(color=tier_color),
+                    bgcolor=SOFT,
+                    borderwidth=0,
+                    steps=[
+                        dict(range=[0, 30], color="rgba(5,150,105,0.15)"),
+                        dict(range=[30, 50], color="rgba(202,138,4,0.14)"),
+                        dict(range=[50, 70], color="rgba(217,119,6,0.14)"),
+                        dict(range=[70, 100], color="rgba(225,29,72,0.14)"),
+                    ],
+                ),
+            )
+        )
+        apply_layout(fig, 300)
+        st.plotly_chart(fig, width="stretch")
+
+>>>>>>> Stashed changes
 
 st.divider()
 st.markdown(
