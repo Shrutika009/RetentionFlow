@@ -1,14 +1,20 @@
-streamlit
-pandas
-numpy
-plotly
-joblib
-scikit-learn
-catboost
-xgboost
-lightgbm
-shap
-imbalanced-learn
-scipy
-matplotlib
-seaborn
+# Streamlit app runtime
+streamlit==1.57.0
+pandas==3.0.3
+numpy==2.4.6
+plotly==6.7.0
+pyarrow==24.0.0
+
+# Notebook model artifact loading and inference
+joblib==1.5.3
+scikit-learn==1.8.0
+scipy==1.16.3
+imbalanced-learn==0.14.1
+catboost==1.2.8
+xgboost==3.2.0
+lightgbm==4.6.0
+shap==0.50.0
+
+# Notebook/static chart compatibility
+matplotlib==3.10.8
+seaborn==0.13.2
