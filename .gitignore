@@ -3,30 +3,55 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Jupyter
+.ipynb_checkpoints/
+
 # Virtual environments
 .venv/
 venv/
 env/
 ENV/
 
-# Local tool caches
-.matplotlib_cache/
+# Python tooling caches
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.ipynb_checkpoints/
+.matplotlib_cache/
 
-# Streamlit/local runtime files
+# ML artifacts
+*.pkl
+*.joblib
+*.h5
+*.model
+
+# Generated outputs
+retention_flow_outputs/artifacts/
+
+# Temporary notebook/chart clutter
+retention_flow_outputs/.matplotlib_cache/
+retention_flow_outputs/.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Streamlit / Dash local config
 .streamlit/secrets.toml
 
-# CatBoost training logs and temporary files
+# CatBoost temp files
 catboost_info/
 
-# OS/editor noise
+# OS / editor files
 .DS_Store
 Thumbs.db
 *.swp
 *.swo
+.vscode/
+.idea/
 
-# Logs
-*.log
+# Large generated datasets / exports
+*.parquet
+*.feather
+
+# Optional CSV ignore
+# Uncomment if you do not want generated scoring files on GitHub
+# *.csv
