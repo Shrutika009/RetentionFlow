@@ -1,17 +1,17 @@
 # Streamlit app runtime
-streamlit==1.45.1
-pandas==2.2.3
-numpy==1.26.4
-plotly==5.24.1
+streamlit==1.57.0
+pandas==3.0.3
+numpy==2.4.6
+plotly==6.7.0
 pyarrow==18.1.0
 
 # Notebook model artifact loading and inference
-joblib==1.4.2
-scikit-learn==1.4.2
+joblib==1.5.3
+scikit-learn==1.8.0
 scipy==1.13.1
 imbalanced-learn==0.12.4
 catboost==1.2.8
-xgboost==2.1.4
+xgboost==3.2.0
 lightgbm==4.5.0
 shap==0.46.0
 
