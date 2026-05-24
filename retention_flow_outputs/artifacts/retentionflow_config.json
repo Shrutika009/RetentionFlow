@@ -1,16 +1,24 @@
 {
-  "model_name": "CatBoostCompactCalibrated",
-  "base_model_name": "CatBoostCompact",
-  "calibration": "platt_sigmoid_strong_regularization",
-  "calibrator_c": 0.001,
-  "threshold": 0.12,
+  "model_name": "CatBoost_platt_calibrated_platt_calibrated",
+  "calibration": "platt",
+  "threshold": 0.11,
   "fn_cost": 40000,
   "fp_cost": 500,
   "random_state": 42,
   "training_rows": 8101,
   "features": 23,
-  "pr_auc": 0.996,
-  "f1_score": 0.8729,
-  "pipeline": "compact_form_feature_model_calibrated",
-  "timestamp": "2026-05-24T03:19:00.737464"
+  "pr_auc": 0.997,
+  "roc_auc": 0.9994,
+  "f1_score": 0.8788,
+  "leakage_removed": [
+    "retention_offer_received",
+    "retention_offer_accepted",
+    "discount_or_fee_waiver_received",
+    "last_campaign_response_days",
+    "customer_feedback_sentiment",
+    "total_digital_logins",
+    "balance_decline_percentage",
+    "unresolved_complaint_count"
+  ],
+  "timestamp": "2026-05-24T15:35:44.242384"
 }

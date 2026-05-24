@@ -1,0 +1,11 @@
+customer_id,churn_probability,top_gap_feature,churner_value,avg_retained_value,gap,similar_retained_ids
+133002,1.0,digital_logins_derived,19.0,28.6,9.6,"[np.int64(139744), np.int64(135495), np.int64(135174), np.int64(134884), np.int64(135000)]"
+133011,1.0,cash_withdrawal_count,2.0,5.4,3.4,"[np.int64(138454), np.int64(137606), np.int64(136776), np.int64(139307), np.int64(137919)]"
+133012,1.0,digital_logins_derived,18.0,31.2,13.2,"[np.int64(134404), np.int64(139274), np.int64(134520), np.int64(140619), np.int64(139069)]"
+133029,1.0,upi_transaction_count,7.0,15.6,8.6,"[np.int64(140576), np.int64(136179), np.int64(134404), np.int64(134520), np.int64(136247)]"
+133040,1.0,cash_withdrawal_count,1.0,5.4,4.4,"[np.int64(139719), np.int64(138269), np.int64(134860), np.int64(137673), np.int64(139720)]"
+133071,1.0,cash_withdrawal_count,1.0,4.8,3.8,"[np.int64(136981), np.int64(140685), np.int64(136313), np.int64(140741), np.int64(134173)]"
+133103,1.0,digital_logins_derived,23.0,31.2,8.2,"[np.int64(137136), np.int64(140898), np.int64(135371), np.int64(133419), np.int64(137191)]"
+133113,1.0,customer_lifetime_value,9606.48,21609.53,12003.05,"[np.int64(139542), np.int64(133767), np.int64(134010), np.int64(136367), np.int64(135681)]"
+133134,1.0,cash_withdrawal_count,0.0,3.8,3.8,"[np.int64(138295), np.int64(140898), np.int64(138657), np.int64(135371), np.int64(140307)]"
+133144,1.0,number_of_products,1.0,3.2,2.2,"[np.int64(135924), np.int64(139953), np.int64(138867), np.int64(136052), np.int64(137780)]"
