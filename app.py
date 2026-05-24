@@ -662,7 +662,7 @@ def dashboard_chart(filename: str, caption: str | None = None) -> None:
         for candidate in candidates:
             path = folder / candidate
             if path.exists():
-                st.image(str(path), caption=caption, width="stretch")
+                st.image(str(path), caption=caption, use_container_width=True)
                 return
     st.info(f"Missing dashboard chart: {filename}")
 
@@ -2522,7 +2522,7 @@ with tab_predict:
                 for container, column in zip(cols, visible_columns[start:start + 2]):
                     input_row[column] = render_predictor_field(container, column, input_row[column])
 
-        submitted = st.button("Calculate Churn Risk", width="stretch", key="manual_churn_predictor_submit_v4")
+        submitted = st.button("Calculate Churn Risk", use_container_width=True, key="manual_churn_predictor_submit_v4")
     st.markdown('</div>', unsafe_allow_html=True)
 
     if submitted:
