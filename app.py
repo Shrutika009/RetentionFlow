@@ -558,6 +558,24 @@ st.markdown(
         max-width: none;
     }
 
+    .predictor-processing {
+        background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(99, 102, 241, 0.10));
+        border: 1px solid rgba(14, 165, 233, 0.32);
+        border-left: 5px solid var(--accent);
+        border-radius: 8px;
+        color: var(--text);
+        font-weight: 900;
+        padding: 0.8rem 0.95rem;
+        margin: 1rem 0 0;
+        width: 100%;
+        animation: processingPulse 1.15s ease-in-out infinite alternate;
+    }
+
+    @keyframes processingPulse {
+        from { box-shadow: 0 0 0 rgba(14, 165, 233, 0.0); }
+        to { box-shadow: 0 0 24px rgba(14, 165, 233, 0.22); }
+    }
+
     .white-table-wrap {
         overflow: auto;
         border: 1px solid var(--border);
@@ -1015,6 +1033,220 @@ def predict_churn(frame: pd.DataFrame, reference: pd.DataFrame | None = None) ->
     return MODEL.predict_proba(model_matrix(frame, reference))[:, 1]
 
 
+@st.cache_data(show_spinner=False)
+def reference_feature_stats(reference: pd.DataFrame) -> dict:
+    ref = reference.copy()
+    present_flags = [col for col in PRODUCT_FLAGS if col in ref.columns]
+    if present_flags:
+        ref["total_products_held"] = ref[present_flags].apply(pd.to_numeric, errors="coerce").fillna(0).sum(axis=1)
+    else:
+        ref["total_products_held"] = 0
+
+    def numeric(col: str) -> pd.Series:
+        return pd.to_numeric(ref[col], errors="coerce").fillna(0) if col in ref.columns else pd.Series([0.0])
+
+    def minmax(col: str) -> tuple[float, float]:
+        values = numeric(col)
+        return float(values.min()), float(values.max())
+
+    recency = 1 / (numeric("account_inactive_days") + 1)
+    return {
+        "mobile_app_login_count_max": float(numeric("mobile_app_login_count").max()),
+        "website_login_count_max": float(numeric("website_login_count").max()),
+        "total_complaints_q75": float(numeric("total_complaints").quantile(0.75)),
+        "loan_default_risk_score_median": float(numeric("loan_default_risk_score").median()),
+        "loan_default_risk_score_q85": float(numeric("loan_default_risk_score").quantile(0.85)),
+        "cash_withdrawal_count_q80": float(numeric("cash_withdrawal_count").quantile(0.8)),
+        "customer_lifetime_value_minmax": minmax("customer_lifetime_value"),
+        "annual_income_minmax": minmax("annual_income"),
+        "avg_monthly_balance_minmax": minmax("avg_monthly_balance"),
+        "total_products_held_minmax": (float(ref["total_products_held"].min()), float(ref["total_products_held"].max())),
+        "rfm_recency_minmax": (float(recency.min()), float(recency.max())),
+        "monthly_transaction_count_minmax": minmax("monthly_transaction_count"),
+        "monthly_transaction_value_minmax": minmax("monthly_transaction_value"),
+    }
+
+
+def add_model_features_single(frame: pd.DataFrame, stats: dict) -> pd.DataFrame:
+    out = frame.copy()
+    for col in out.select_dtypes(include=["object", "string"]).columns:
+        out[col] = out[col].astype(str).str.strip().str.lower()
+
+    def numeric(col: str) -> pd.Series:
+        if col not in out.columns:
+            out[col] = 0
+        return pd.to_numeric(out[col], errors="coerce").fillna(0)
+
+    def yes_no_to_number(series: pd.Series) -> pd.Series:
+        mapped = (
+            series.astype(str)
+            .str.strip()
+            .str.lower()
+            .map({"yes": 1, "y": 1, "true": 1, "1": 1, "no": 0, "n": 0, "false": 0, "0": 0})
+        )
+        numeric_series = pd.to_numeric(series, errors="coerce")
+        return mapped.fillna(numeric_series)
+
+    present_flags = [col for col in PRODUCT_FLAGS if col in out.columns]
+    loan_flags = [col for col in ["personal_loan_flag", "home_loan_flag", "auto_loan_flag"] if col in out.columns]
+    derived_has_loan = (
+        out[loan_flags].apply(pd.to_numeric, errors="coerce").fillna(0).sum(axis=1) > 0
+    ).astype(int) if loan_flags else pd.Series(0, index=out.index)
+    out["has_loan"] = yes_no_to_number(out["has_loan"]).fillna(derived_has_loan).astype(int) if "has_loan" in out.columns else derived_has_loan
+
+    derived_default = pd.Series(0, index=out.index)
+    if "emi_payment_delay_count" in out.columns:
+        derived_default = derived_default | (numeric("emi_payment_delay_count") > 0)
+    if "loan_default_risk_score" in out.columns:
+        derived_default = derived_default | (numeric("loan_default_risk_score") > stats["loan_default_risk_score_median"])
+    out["loan_default_history"] = (
+        yes_no_to_number(out["loan_default_history"]).fillna(derived_default).astype(int)
+        if "loan_default_history" in out.columns
+        else derived_default.astype(int)
+    )
+
+    mobile_norm = numeric("mobile_app_login_count") / (stats["mobile_app_login_count_max"] + 1)
+    web_norm = numeric("website_login_count") / (stats["website_login_count_max"] + 1)
+    out["composite_digital_score"] = (
+        mobile_norm * 35
+        + web_norm * 20
+        + numeric("digital_transaction_ratio") * 25
+        + numeric("mobile_banking_active_flag") * 10
+        + numeric("paperless_statement_enabled") * 10
+    ).round(4)
+    out["low_digital_activity"] = (out["composite_digital_score"] < 20).astype(int)
+    out["balance_to_income_ratio"] = (numeric("avg_monthly_balance") / (numeric("annual_income") / 12 + 1)).round(4)
+    out["clv_to_income_ratio"] = (numeric("customer_lifetime_value") / (numeric("annual_income") + 1)).round(4)
+    out["spend_to_limit_ratio"] = (numeric("credit_card_spend") / (numeric("credit_card_limit") + 1)).round(4)
+    out["emi_to_income_ratio"] = (numeric("emi_amount") / (numeric("monthly_income_estimate") + 1)).round(4)
+    out["transaction_to_balance_ratio"] = (numeric("monthly_transaction_value") / (numeric("avg_monthly_balance") + 1)).round(4)
+    out["total_products_held"] = out[present_flags].apply(pd.to_numeric, errors="coerce").fillna(0).sum(axis=1) if present_flags else 0
+    out["single_product_flag"] = (out["total_products_held"] == 1).astype(int)
+    out["multi_product_flag"] = (out["total_products_held"] >= 3).astype(int)
+    out["products_per_tenure"] = out["total_products_held"] / (numeric("tenure_months") + 1)
+    out["complaint_resolution_ratio"] = (numeric("unresolved_complaint_count") / (numeric("total_complaints") + 1)).round(4)
+    out["high_complaint_flag"] = (numeric("total_complaints") > stats["total_complaints_q75"]).astype(int)
+    out["escalation_rate"] = (numeric("escalation_count") / (numeric("total_complaints") + 1)).round(4)
+    out["satisfaction_nps_composite"] = (numeric("satisfaction_score") * 0.5 + numeric("nps_score") * 0.5).round(4)
+    out["low_satisfaction_flag"] = ((numeric("satisfaction_score") < 3) | (numeric("nps_score") < 3)).astype(int)
+    out["credit_risk_composite"] = (
+        numeric("loan_default_risk_score") * 0.4
+        + numeric("credit_utilization_ratio") * 0.3
+        + numeric("late_credit_card_payment_count") * 0.2
+        + numeric("emi_payment_delay_count") * 0.1
+    ).round(4)
+    out["financial_stress_flag"] = (
+        (numeric("credit_utilization_ratio") > 0.8)
+        | (numeric("loan_default_risk_score") > stats["loan_default_risk_score_q85"])
+        | (numeric("emi_payment_delay_count") >= 3)
+    ).astype(int)
+    out["credit_utilization_trend"] = (numeric("credit_utilization_ratio") - numeric("credit_utilization_3m_avg")).round(4)
+    out["transaction_frequency_score"] = (numeric("monthly_transaction_count") / (numeric("tenure_months") + 1)).round(4)
+    out["upi_dominance_ratio"] = (numeric("upi_transaction_count") / (numeric("monthly_transaction_count") + 1)).round(4)
+    out["transaction_growth"] = numeric("total_ct_chng_q4_q1")
+    out["high_cash_withdrawal_flag"] = (numeric("cash_withdrawal_count") > stats["cash_withdrawal_count_q80"]).astype(int)
+    out["zero_balance_flag"] = (numeric("avg_monthly_balance") <= 0).astype(int)
+    out["balance_declining_flag"] = (numeric("balance_decline_percentage") > 20).astype(int)
+    out["login_days_x_inactive"] = numeric("last_login_days") * numeric("account_inactive_days")
+    out["dormancy_risk_flag"] = ((numeric("last_login_days") > 30) & (numeric("account_inactive_days") > 60)).astype(int)
+    out["recency_engagement_score"] = (
+        1 / (numeric("last_login_days") + 1)
+        + 1 / (numeric("account_inactive_days") + 1)
+        + 1 / (numeric("last_contacted_days") + 1)
+    ).round(6)
+    out["campaign_response_rate"] = (numeric("campaign_response_count") / (numeric("campaign_received_count") + 1)).round(4)
+    out["retention_offer_response"] = (numeric("retention_offer_accepted") / (numeric("retention_offer_received") + 1)).round(4)
+    out["competitor_aware_flag"] = (
+        out.get("competitor_bank_offer_awareness", pd.Series("", index=out.index))
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        .map({"high": 1, "medium": 1, "low": 1, "aware": 1, "not aware": 0})
+        .fillna(0)
+        .astype(int)
+    )
+
+    def min_max_norm_value(series: pd.Series, key: str) -> pd.Series:
+        ref_min, ref_max = stats[key]
+        values = pd.to_numeric(series, errors="coerce").fillna(0)
+        min_value = np.minimum(values, ref_min)
+        max_value = np.maximum(values, ref_max)
+        return (values - min_value) / (max_value - min_value + 1e-9)
+
+    out["customer_value"] = (
+        min_max_norm_value(numeric("customer_lifetime_value"), "customer_lifetime_value_minmax") * 0.4
+        + min_max_norm_value(numeric("annual_income"), "annual_income_minmax") * 0.25
+        + min_max_norm_value(numeric("avg_monthly_balance"), "avg_monthly_balance_minmax") * 0.2
+        + min_max_norm_value(out["total_products_held"], "total_products_held_minmax") * 0.15
+    ).round(4)
+    out["wealth_tier"] = pd.cut(
+        out["customer_value"],
+        bins=[0, 0.25, 0.50, 0.75, 1.01],
+        labels=["Basic", "Standard", "Premium", "Elite"],
+    ).astype(str)
+    out["age_tenure_interaction"] = numeric("age") * numeric("tenure_months")
+    out["income_products_interaction"] = numeric("annual_income") * out["total_products_held"]
+    out["complaints_x_inactivity"] = numeric("total_complaints") * numeric("account_inactive_days")
+    out["digital_x_balance"] = out["composite_digital_score"] * numeric("avg_monthly_balance")
+    out["satisfaction_x_tenure"] = numeric("satisfaction_score") * numeric("tenure_months")
+    out["rfm_recency"] = min_max_norm_value(1 / (numeric("account_inactive_days") + 1), "rfm_recency_minmax")
+    out["rfm_frequency"] = min_max_norm_value(numeric("monthly_transaction_count"), "monthly_transaction_count_minmax")
+    out["rfm_monetary"] = min_max_norm_value(numeric("monthly_transaction_value"), "monthly_transaction_value_minmax")
+    out["rfm_score"] = (out["rfm_recency"] * 0.35 + out["rfm_frequency"] * 0.35 + out["rfm_monetary"] * 0.30).round(4)
+    for col in ["annual_income", "customer_lifetime_value", "avg_monthly_balance", "total_trans_amt", "loan_outstanding_amount"]:
+        out[f"log_{col}"] = np.log1p(numeric(col).clip(lower=0))
+    for col in out.select_dtypes(include=["category"]).columns:
+        out[col] = out[col].astype(str).replace("nan", "unknown")
+    return out.replace([np.inf, -np.inf], 0).fillna(0)
+
+
+def manual_model_matrix(model_row: dict) -> pd.DataFrame:
+    matrix = add_model_features_single(pd.DataFrame([model_row]), reference_feature_stats(MODEL_REFERENCE))
+    for col, encoder in ENCODERS.items():
+        class_map = {str(cls).lower(): cls for cls in encoder.classes_}
+        fallback = encoder.classes_[0]
+        matrix[col] = matrix[col].astype(str).str.lower().map(class_map).fillna(fallback)
+        matrix[col] = encoder.transform(matrix[col])
+    for feature in MODEL_FEATURES:
+        if feature not in matrix.columns:
+            matrix[feature] = 0
+    matrix = matrix[MODEL_FEATURES].apply(pd.to_numeric, errors="coerce").fillna(0)
+    if MODEL_CONFIG.get("model_name") == "LogisticRegression":
+        scaled = SCALER.transform(matrix)
+        return pd.DataFrame(scaled, columns=MODEL_FEATURES, index=matrix.index)
+    return matrix
+
+
+@st.cache_data(show_spinner=False)
+def cached_manual_prediction(model_row_json: str) -> tuple[float, pd.DataFrame]:
+    model_row = json.loads(model_row_json)
+    matrix = manual_model_matrix(model_row)
+    score = float(MODEL.predict_proba(matrix)[:, 1][0])
+    engineered = add_model_features_single(pd.DataFrame([model_row]), reference_feature_stats(MODEL_REFERENCE)).iloc[0]
+    drivers = top_model_drivers(pd.Series(model_row), 12, engineered_row=engineered)
+    return score, drivers
+
+
+@st.cache_data(show_spinner=False)
+def cached_filtered_predictions(data_scope: str, customer_ids: tuple[int, ...]) -> pd.DataFrame:
+    if not customer_ids:
+        return pd.DataFrame(columns=["customer_id", "ml_churn_probability"])
+    source = (
+        pd.concat([df_train, df_test], ignore_index=True)
+        if data_scope == "Full Dataset"
+        else (df_train if data_scope == "Training Data" else df_test)
+    )
+    subset = source[source["customer_id"].isin(customer_ids)].copy()
+    if "notebook_churn_probability" in subset.columns and subset["notebook_churn_probability"].notna().any():
+        subset["ml_churn_probability"] = pd.to_numeric(subset["notebook_churn_probability"], errors="coerce")
+    else:
+        subset["ml_churn_probability"] = np.nan
+    missing = subset["ml_churn_probability"].isna()
+    if missing.any():
+        subset.loc[missing, "ml_churn_probability"] = predict_churn(subset.loc[missing], MODEL_REFERENCE)
+    return subset[["customer_id", "ml_churn_probability"]]
+
+
 def model_risk_label(probability: float) -> str:
     return "High" if probability >= float(MODEL_CONFIG["threshold"]) else "Low"
 
@@ -1040,16 +1272,19 @@ def format_probability(probability: float) -> str:
     return f"{probability:.1%}"
 
 
+@st.cache_data(show_spinner=False)
 def load_feature_importance() -> pd.DataFrame:
     return pd.read_csv(ARTIFACT_DIR / "shap_feature_importance.csv")
 
 
+@st.cache_data(show_spinner=False)
 def load_model_comparison() -> pd.DataFrame:
     comparison = pd.read_csv(ARTIFACT_DIR / "model_comparison_results.csv", index_col=0).reset_index()
     comparison = comparison.rename(columns={"index": "model"})
     return comparison
 
 
+@st.cache_data(show_spinner=False)
 def load_roi_calculator() -> pd.DataFrame:
     path = BASE_DIR / "retention_flow_outputs" / "retentionflow_roi_calculator.csv"
     if not path.exists():
@@ -1059,6 +1294,7 @@ def load_roi_calculator() -> pd.DataFrame:
     return roi
 
 
+@st.cache_data(show_spinner=False)
 def load_customer_cloning() -> pd.DataFrame:
     path = BASE_DIR / "retention_flow_outputs" / "retentionflow_customer_cloning.csv"
     if not path.exists():
@@ -1137,17 +1373,22 @@ def normalize_for_radar(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame
     return result
 
 
-def top_model_drivers(row: pd.Series, limit: int = 8) -> pd.DataFrame:
+@st.cache_data(show_spinner=False)
+def feature_baseline_medians(reference: pd.DataFrame) -> pd.Series:
+    return add_model_features(reference).median(numeric_only=True)
+
+
+def top_model_drivers(row: pd.Series, limit: int = 8, engineered_row: pd.Series | None = None) -> pd.DataFrame:
     importance = load_feature_importance()
-    engineered = add_model_features(pd.DataFrame([row])).iloc[0]
-    baseline_frame = globals().get("MODEL_REFERENCE", globals().get("df", pd.DataFrame([row])))
-    baseline = add_model_features(baseline_frame).median(numeric_only=True)
+    engineered = engineered_row if engineered_row is not None else add_model_features(pd.DataFrame([row])).iloc[0]
+    baseline = feature_baseline_medians(MODEL_REFERENCE)
+    importance_lookup = importance.set_index("feature")["mean_abs_shap"].to_dict()
     rows = []
     for feature in importance["feature"]:
         if feature not in engineered.index:
             continue
         value = engineered[feature]
-        model_importance = round(float(importance.loc[importance["feature"] == feature, "mean_abs_shap"].iloc[0]), 4)
+        model_importance = round(float(importance_lookup.get(feature, 0)), 4)
         if not pd.api.types.is_number(value):
             rows.append(
                 {
@@ -1243,7 +1484,13 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
 
 df_train, df_test = load_data()
 MODEL_REFERENCE = df_train.copy()
-MODEL_PROBABILITY_CUTS = tuple(np.quantile(predict_churn(df_train, MODEL_REFERENCE), [0.50, 0.75, 0.90]))
+train_probabilities = pd.to_numeric(
+    df_train.get("notebook_churn_probability", pd.Series(dtype=float)),
+    errors="coerce",
+).dropna()
+if train_probabilities.empty:
+    train_probabilities = pd.Series(predict_churn(df_train, MODEL_REFERENCE))
+MODEL_PROBABILITY_CUTS = tuple(np.quantile(train_probabilities, [0.50, 0.75, 0.90]))
 
 
 with st.sidebar:
@@ -1344,7 +1591,11 @@ fn_cost = float(MODEL_CONFIG["fn_cost"])
 fp_cost = float(MODEL_CONFIG["fp_cost"])
 if total_customers:
     fdf = fdf.copy()
-    fdf["ml_churn_probability"] = predict_churn(fdf, MODEL_REFERENCE)
+    prediction_lookup = cached_filtered_predictions(data_scope, tuple(fdf["customer_id"].astype(int).tolist()))
+    fdf = fdf.merge(prediction_lookup, on="customer_id", how="left")
+    if fdf["ml_churn_probability"].isna().any():
+        missing_mask = fdf["ml_churn_probability"].isna()
+        fdf.loc[missing_mask, "ml_churn_probability"] = predict_churn(fdf.loc[missing_mask], MODEL_REFERENCE)
     fdf["ml_predicted_churn"] = (fdf["ml_churn_probability"] >= model_threshold).astype(int)
     fdf["risk_tier"] = fdf["ml_churn_probability"].apply(lambda prob: model_tier(float(prob))[0].replace(" Risk", ""))
     if sel_risk != "All":
@@ -2588,12 +2839,19 @@ with tab_predict:
             else:
                 model_row["loan_default_history"] = 0
                 model_row["loan_default_risk_score"] = float(predictor_source["loan_default_risk_score"].quantile(0.25))
-            input_frame = pd.DataFrame([model_row])
-            score = float(predict_churn(input_frame, MODEL_REFERENCE)[0])
+
+            st.markdown('<div class="predictor-processing">Please wait...</div>', unsafe_allow_html=True)
+            progress = st.progress(0, text="Please wait...")
+            model_row_json = json.dumps(model_row, sort_keys=True, default=str)
+            progress.progress(35, text="Please wait...")
+            with st.spinner("Please wait..."):
+                score, drivers = cached_manual_prediction(model_row_json)
+            progress.progress(100, text="Done")
+            progress.empty()
+
             tier, tier_color = model_tier(score)
             predicted_label = "Churn" if score >= model_threshold else "Retain"
             cost_exposure = score * fn_cost + (1 - score) * fp_cost
-            drivers = top_model_drivers(pd.Series(model_row), 12)
             score_text = format_probability(score)
 
             r1, r2, r3 = st.columns(3)
