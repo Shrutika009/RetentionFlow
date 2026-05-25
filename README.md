@@ -69,6 +69,23 @@ model_comparison_results.csv
 
 If those artifact files are missing locally, rerun the notebook workflow to regenerate them before launching the Streamlit app. The `retention_flow_outputs/artifacts/` directory is intentionally ignored by Git because it can contain generated model binaries.
 
+## Streamlit Community Cloud Deployment
+
+This app must be deployed with Python 3.11. Streamlit Community Cloud may ignore
+`runtime.txt` and default to a newer Python release, which can make pinned ML
+packages such as scikit-learn and CatBoost fail during dependency installation.
+
+For a new deployment:
+
+1. Open the app in Streamlit Community Cloud.
+2. Go to app settings / advanced settings.
+3. Set the Python version to 3.11.
+4. Deploy the app.
+
+If the app is already deployed with Python 3.14, delete the Streamlit Cloud app
+and redeploy it with Python 3.11 selected in Advanced settings. A normal reboot
+can keep the same Python runtime.
+
 ## Data and Outputs
 
 - Raw data: `Churnzero_data/CZ_raw/`
