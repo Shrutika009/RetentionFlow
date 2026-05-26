@@ -19,6 +19,7 @@ PROCESSED_DATA_DIR = BASE_DIR / "Churnzero_data" / "CZ_processed"
 ARTIFACT_DIR = BASE_DIR / "retention_flow_outputs" / "artifacts"
 CHART_DIR = BASE_DIR / "retention_flow_outputs" / "charts"
 ASSET_DIR = BASE_DIR / "assets"
+GITHUB_REPO_URL = "https://github.com/Shrutika009/RetentionFlow"
 
 ACCENT = "#0EA5E9"
 ACCENT_2 = "#6366F1"
@@ -186,6 +187,68 @@ st.markdown(
         letter-spacing: 0.08em;
         text-transform: uppercase;
         margin: 0.85rem 0 0.25rem 0;
+    }
+
+    .github-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        width: 100%;
+        min-height: 42px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #FFFFFF;
+        color: var(--text) !important;
+        font-size: 0.82rem;
+        font-weight: 900;
+        text-decoration: none !important;
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+        transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+    }
+
+    .github-link:hover {
+        border-color: var(--accent);
+        box-shadow: 0 16px 32px rgba(14, 165, 233, 0.14);
+        transform: translateY(-1px);
+        color: var(--accent) !important;
+    }
+
+    .github-link svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        fill: currentColor;
+        flex: 0 0 auto;
+    }
+
+    .sidebar-source-link {
+        margin: 0.9rem 0 1.1rem;
+    }
+
+    .homepage-source-link {
+        width: min(280px, 100%);
+        margin-left: auto;
+    }
+
+    .homepage-source-link .source-url {
+        display: block;
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+    .footer-source-link {
+        width: min(260px, 100%);
+        margin: 0.45rem auto 0;
+    }
+
+    @media (max-width: 760px) {
+        .homepage-source-link {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 0.8rem;
+        }
     }
 
     [data-baseweb="select"] > div,
@@ -669,6 +732,23 @@ CHART_ALIASES = {
     "pr_curve.png": "pr_curves.png",
     "threshold_optimization.png": "threshold_optimisation.png",
 }
+
+
+def github_source_link(container_class: str = "") -> str:
+    class_attr = f" {container_class}" if container_class else ""
+    return f"""
+    <div class="github-link-wrap{class_attr}">
+        <a class="github-link" href="{GITHUB_REPO_URL}" target="_blank" rel="noopener noreferrer" aria-label="View Source Code on GitHub">
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.56 7.56 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+            </svg>
+            <span>
+                View Source Code
+                <span class="source-url">github.com/Shrutika009/RetentionFlow</span>
+            </span>
+        </a>
+    </div>
+    """
 
 
 def dashboard_chart(filename: str, caption: str | None = None) -> None:
@@ -1614,15 +1694,20 @@ revenue_at_risk = fdf["revenue_at_risk"].sum() if total_customers and "revenue_a
 
 
 st.markdown(
-    """
-    <div style="display:flex;align-items:baseline;gap:1rem;">
-        <div style="font-size:2rem;font-weight:900;color:#0F172A;">RetentionFlow</div>
-        <div style="font-size:1rem;font-weight:800;color:#0EA5E9;letter-spacing:0.04em;">
-            CHURNZERO INTELLIGENCE PLATFORM
+    f"""
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <div>
+            <div style="display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;">
+                <div style="font-size:2rem;font-weight:900;color:#0F172A;">RetentionFlow</div>
+                <div style="font-size:1rem;font-weight:800;color:#0EA5E9;letter-spacing:0.04em;">
+                    CHURNZERO INTELLIGENCE PLATFORM
+                </div>
+            </div>
+            <div style="color:#64748B;font-size:0.9rem;margin-bottom:0.9rem;">
+                Bank churn prediction, risk scoring, revenue recovery, and retention planning.
+            </div>
         </div>
-    </div>
-    <div style="color:#64748B;font-size:0.9rem;margin-bottom:0.9rem;">
-        Bank churn prediction, risk scoring, revenue recovery, and retention planning.
+        {github_source_link("homepage-source-link")}
     </div>
     """,
     unsafe_allow_html=True,
@@ -2883,9 +2968,10 @@ with tab_predict:
 
 st.divider()
 st.markdown(
-    """
+    f"""
     <div style="text-align:center;color:#64748B;font-size:0.72rem;padding-bottom:0.5rem;">
         RetentionFlow - ChurnZero Intelligence Platform
+        {github_source_link("footer-source-link")}
     </div>
     """,
     unsafe_allow_html=True,
