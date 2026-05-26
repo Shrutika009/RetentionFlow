@@ -2971,7 +2971,6 @@ st.markdown(
     f"""
     <div style="text-align:center;color:#64748B;font-size:0.72rem;padding-bottom:0.5rem;">
         RetentionFlow - ChurnZero Intelligence Platform
-        {github_source_link("footer-source-link")}
     </div>
     """,
     unsafe_allow_html=True,
