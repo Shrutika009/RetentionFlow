@@ -1707,7 +1707,6 @@ st.markdown(
                 Bank churn prediction, risk scoring, revenue recovery, and retention planning.
             </div>
         </div>
-        {github_source_link("homepage-source-link")}
     </div>
     """,
     unsafe_allow_html=True,
